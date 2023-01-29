@@ -20,18 +20,25 @@
         </tr>
       </thead>
       <tbody>
-        @foreach (var tarefas in Model.Todos)
+        @foreach (var tarefa in Model.Todos)
         {
-          var isCompleted = tarefas.IsCompleted ? "Sim" : "Não";
+          var isCompleted = tarefa.IsCompleted ? "Sim" : "Não";
           <tr>
-            <th scope="row">@tarefas.Id</th>
-            <td>@tarefas.Title</td>
-            <td>@tarefas.Date.ToString("dd/MM/yyyy")</td>
+            <th scope="row">@tarefa.Id</th>
+            <td>@tarefa.Title</td>
+            <td>@tarefa.Date.ToString("dd/MM/yyyy")</td>
             <td>@isCompleted</td>
             <td>
               <a href="#" class="btn btn-sm btn-success">Completar</a>
               <a href="#" class="btn btn-sm btn-warning">Editar</a>
-              <a href="#" class="btn btn-sm btn-danger">Excluir</a>
+              <a 
+                asp-controller="Todo" 
+                asp-action="Delete" 
+                asp-route-id="@tarefa.Id"
+                class="btn btn-sm btn-danger"
+              >
+                Excluir
+              </a>
             </td>
           </tr>
         }
@@ -42,6 +49,12 @@
 
 <div class="row">
   <div class="col">
-    <a href="" class="btn btn-primary">Nova Tarefa</a>
+    <a
+      asp-controller="Todo" 
+      asp-action="Create"
+      class="btn btn-primary"
+    >
+      Nova Tarefa
+    </a>
   </div>
 </div>

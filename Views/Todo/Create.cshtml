@@ -1,0 +1,21 @@
+@model CreateTodoViewModel;
+
+<div class="row">
+  <div class="col text-center">
+    <h1>@ViewData["Title"]</h1>
+  </div>
+</div>
+
+<form method="post" >
+  <div class="form-group">
+    <label asp-for="Title" >Titulo</label>
+    <input asp-for="Title" type="text" class="form-control" >
+  </div>
+  <br/>
+  <div class="form-group">
+    <label asp-for="Date" >Data</label>
+    <input asp-for="Date" type="date" class="form-control">
+  </div>
+  <br/>
+  <button type="submit" class="btn btn-primary">Criar Tarefa</button>
+</form>
