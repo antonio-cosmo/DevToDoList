@@ -24,7 +24,7 @@ public class AppDbContext : DbContext
             .HasColumnType("varchar(255)")
             .IsRequired();
 
-      model.Property(m => m.Date).HasColumnName("date").HasColumnType("timestamp").HasDefaultValueSql("now()");
+      model.Property(m => m.Date).HasColumnName("date").HasColumnType("date").IsRequired();
 
       model.Property(m => m.IsCompleted).HasColumnName("is_completed").HasColumnType("boolean").IsRequired();
 
