@@ -27,14 +27,38 @@
             <th scope="row">@tarefa.Id</th>
             <td>@tarefa.Title</td>
             <td>@tarefa.Date.ToString("dd/MM/yyyy")</td>
-            <td>@isCompleted</td>
             <td>
-              <a href="#" class="btn btn-sm btn-success">Completar</a>
-              <a href="#" class="btn btn-sm btn-warning">Editar</a>
+              @if (tarefa.IsCompleted)
+              {
+                <i class="bi bi-check-square text-success"></i>
+              }else{
+                <i class="bi bi-x-square text-danger"></i>
+              }
+            </td>
+            <td>
+              <a 
+                asp-controller="Todo" 
+                asp-action="ToComplete" 
+                asp-route-id="@tarefa.Id"
+                onclick="return confirm('Concluir tarefa?')"
+                class='btn btn-sm btn-success @(tarefa.IsCompleted ? "disabled" : "")'
+                
+              > 
+                Concluir
+              </a>
+              <a 
+                asp-controller="Todo" 
+                asp-action="Edit" 
+                asp-route-id="@tarefa.Id"
+                class='btn btn-sm btn-warning @(tarefa.IsCompleted ? "disabled" : "")'
+              >
+                Editar
+              </a>
               <a 
                 asp-controller="Todo" 
                 asp-action="Delete" 
                 asp-route-id="@tarefa.Id"
+                onclick="return confirm('Excluir tarefa?')"
                 class="btn btn-sm btn-danger"
               >
                 Excluir

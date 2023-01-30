@@ -1,4 +1,4 @@
-@model CreateTodoViewModel;
+@model FormTodoViewModel;
 
 <div class="row">
   <div class="col text-center">
@@ -17,5 +17,5 @@
     <input asp-for="Date" type="date" class="form-control">
   </div>
   <br/>
-  <button type="submit" class="btn btn-primary">Criar Tarefa</button>
+  <button type="submit" class="btn btn-primary">@ViewData["TextButton"]</button>
 </form>
