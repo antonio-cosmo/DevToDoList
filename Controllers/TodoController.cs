@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using DevToDoList.Contexts;
 using DevToDoList.Models;
 using DevToDoList.ViewModels;
@@ -18,11 +19,11 @@ public class TodoController : Controller
 
   public IActionResult Index()
   {
-    var todos = this._context.ToDos.OrderBy(t => t.Date).ToList();
-    var listTodos = new ListTodoViewModel { Todos = todos };
+    var tasks = this._context.ToDos.OrderBy(t => t.Date).ToList();
+    var listTasks = new ListTodoViewModel { Todos = tasks };
 
     ViewData["Title"] = "Lista de tarefas";
-    return View(listTodos);
+    return View(listTasks);
   }
 
   public IActionResult Delete(int id)
@@ -45,6 +46,7 @@ public class TodoController : Controller
   {
     ViewData["Title"] = "Criar Tarefa";
     ViewData["TextButton"] = "Criar tarefa";
+
     return View("Form");
   }
 
@@ -52,9 +54,9 @@ public class TodoController : Controller
   public IActionResult Create(FormTodoViewModel data)
   {
 
-    var todo = new ToDo(data.Title, data.Date);
+    var task = new ToDo(data.Title, data.Date);
 
-    this._context.ToDos.Add(todo);
+    this._context.ToDos.Add(task);
     this._context.SaveChanges();
 
     return RedirectToAction(nameof(Index));
@@ -62,29 +64,32 @@ public class TodoController : Controller
 
   public IActionResult Edit(int id)
   {
-    var todo = this._context.ToDos.Find(id);
-    if (todo is null)
+    var task = this._context.ToDos.Find(id);
+    if (task is null)
     {
       return NotFound();
     }
+
+    var editTask = new FormTodoViewModel { Title = task.Title, Date = task.Date };
+
     ViewData["Title"] = "Editar Tarefa";
     ViewData["TextButton"] = "Editar tarefa";
-    var editTodo = new FormTodoViewModel { Title = todo.Title, Date = todo.Date };
-    return View("Form", editTodo);
+
+    return View("Form", editTask);
   }
 
   [HttpPost]
   public IActionResult Edit(int id, FormTodoViewModel data)
   {
-    var editTodo = this._context.ToDos.Find(id);
+    var editTask = this._context.ToDos.Find(id);
 
-    if (editTodo is null)
+    if (editTask is null)
     {
       return NotFound();
     }
 
-    editTodo.Title = data.Title;
-    editTodo.Date = data.Date;
+    editTask.Title = data.Title;
+    editTask.Date = data.Date;
 
     this._context.SaveChanges();
 
@@ -93,17 +98,22 @@ public class TodoController : Controller
 
   public IActionResult ToComplete(int id)
   {
-    var editTodo = this._context.ToDos.Find(id);
+    var editTask = this._context.ToDos.Find(id);
 
-    if (editTodo is null)
+    if (editTask is null)
     {
       return NotFound();
     }
 
-    editTodo.IsCompleted = true;
+    editTask.IsCompleted = true;
     this._context.SaveChanges();
 
     return RedirectToAction(nameof(Index));
   }
 
+  [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+  public IActionResult Error()
+  {
+    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+  }
 }

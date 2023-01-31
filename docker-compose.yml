@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  database:
+    image: postgres
+    container_name: db_todolist
+    hostname: db_todolist
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=devTodo
+      - POSTGRES_PASSWORD=devTodo
+      - POSTGRES_DB=db_todolist
+    volumes:
+      - pgdata_dev-todo:/data/postgres
+
+volumes:
+  pgdata_dev-todo:
+    driver: local
+
